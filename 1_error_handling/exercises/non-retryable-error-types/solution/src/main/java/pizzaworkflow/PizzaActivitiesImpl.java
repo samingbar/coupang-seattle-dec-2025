@@ -8,10 +8,11 @@ import pizzaworkflow.model.CreditCardConfirmation;
 import pizzaworkflow.model.CreditCardInfo;
 
 import pizzaworkflow.exceptions.InvalidChargeAmountException;
-import pizzaworkflow.exceptions.OutOfServiceAreaException;
 import pizzaworkflow.exceptions.CreditCardProcessingException;
 
 import java.time.Instant;
+import java.time.Duration;
+import java.util.Random;
 
 import io.temporal.activity.Activity;
 import io.temporal.failure.ApplicationFailure;
@@ -63,7 +64,7 @@ public class PizzaActivitiesImpl implements PizzaActivities {
     if (chargeAmount < 0) {
       logger.error("invalid charge amount: {%d} (must be above zero)", chargeAmount);
       String errorMessage = "invalid charge amount: " + chargeAmount;
-      throw ApplicationFailure.newNonRetryableFailure(errorMessage, InvalidChargeAmountException.class.getName());
+      throw Activity.wrap(new InvalidChargeAmountException(errorMessage));
     }
 
     // pretend we called a payment processing service here
@@ -78,15 +79,53 @@ public class PizzaActivitiesImpl implements PizzaActivities {
 
   @Override
   public CreditCardConfirmation processCreditCard(CreditCardInfo creditCard, Bill bill) {
-
+    
     if(creditCard.getNumber().length() == 16) {
       String cardProcessingConfirmationNumber = "PAYME-78759";
       return new CreditCardConfirmation(creditCard, cardProcessingConfirmationNumber, bill.getAmount(), Instant.now().getEpochSecond());
     } else {
-      throw ApplicationFailure.newNonRetryableFailure(
-        "Invalid credit card number",
-        CreditCardProcessingException.class.getName()
-      );
+      throw ApplicationFailure.newFailure("Invalid credit card number",
+          CreditCardProcessingException.class.getName());
+      // This also works
+      //   throw Activity.wrap(new CreditCardProcessingException("Invalid credit card number"));
     }
   }
+
+  @Override
+  public boolean notifyDeliveryDriver(OrderConfirmation order) {
+
+    Random rand = new Random();
+
+    /* This is a simulation of attempting to notify a delivery driver that
+     * the order is ready for delivery. It starts by generating a number from 0 - 14.
+     * From there a loop is iterated over from 0 < 10, each time checking to 
+     * see if the random number matches the loop counter and then sleeping for 5
+     * seconds. Each iteration of the loop sends a heartbeat back letting the 
+     * Workflow know that progress is still being made. If the number matches a
+     * loop counter, it is a success. If it doesn't, then a delivery driver was
+     * unable to be contacted and failure is returned.
+     */
+    int successSimulation = rand.nextInt(15);
+
+    for(int x = 0; x < 10; x++) {
+
+      if (successSimulation == x){
+        // Pretend to use the `order` variable to notify the driver
+        logger.info("Delivery driver responded");
+        return true;
+      }
+
+      Activity.getExecutionContext().heartbeat("Heartbeat: " + x);
+      logger.info("Heartbeat: " + x);
+      try {
+        Thread.sleep(5000); // 5 seconds
+      } catch (InterruptedException e) {
+        continue;
+      }
+
+    }
+    logger.info("Delivery driver didn't respond");
+    return false;
+  }
+
 }

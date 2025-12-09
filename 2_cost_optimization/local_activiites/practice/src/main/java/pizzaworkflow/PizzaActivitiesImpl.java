@@ -83,10 +83,8 @@ public class PizzaActivitiesImpl implements PizzaActivities {
       String cardProcessingConfirmationNumber = "PAYME-78759";
       return new CreditCardConfirmation(creditCard, cardProcessingConfirmationNumber, bill.getAmount(), Instant.now().getEpochSecond());
     } else {
-      throw ApplicationFailure.newNonRetryableFailure(
-        "Invalid credit card number",
-        CreditCardProcessingException.class.getName()
-      );
+      throw ApplicationFailure.newNonRetryableFailure("Invalid credit card number",
+        CreditCardProcessingException.class.getName());
     }
   }
 }

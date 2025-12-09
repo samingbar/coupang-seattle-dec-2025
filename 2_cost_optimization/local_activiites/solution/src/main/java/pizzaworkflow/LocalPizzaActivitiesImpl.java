@@ -1,3 +1,5 @@
+//2. Create a local pizza activities implementation
+
 package pizzaworkflow;
 
 import pizzaworkflow.model.OrderConfirmation;
@@ -19,30 +21,9 @@ import io.temporal.failure.ApplicationFailure;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class PizzaActivitiesImpl implements PizzaActivities {
+public class LocalPizzaActivitiesImpl implements LocalPizzaActivities {
 
-  private static final Logger logger = LoggerFactory.getLogger(PizzaActivitiesImpl.class);
-
-  @Override
-  public Distance getDistance(Address address) {
-
-    logger.info("getDistance invoked; determining distance to customer address");
-
-    // this is a simulation, which calculates a fake (but consistent)
-    // distance for a customer address based on its length. The value
-    // will therefore be different when called with different addresses,
-    // but will be the same across all invocations with the same address.
-
-    int kilometers = address.getLine1().length() + address.getLine2().length() - 10;
-    if (kilometers < 1) {
-      kilometers = 5;
-    }
-
-    Distance distance = new Distance(kilometers);
-
-    logger.info("getDistance complete: {}", distance.getKilometers());
-    return distance;
-  }
+  private static final Logger logger = LoggerFactory.getLogger(LocalPizzaActivitiesImpl.class);
 
   @Override
   public OrderConfirmation sendBill(Bill bill, CreditCardConfirmation creditCardConfirmation) {
@@ -83,10 +64,8 @@ public class PizzaActivitiesImpl implements PizzaActivities {
       String cardProcessingConfirmationNumber = "PAYME-78759";
       return new CreditCardConfirmation(creditCard, cardProcessingConfirmationNumber, bill.getAmount(), Instant.now().getEpochSecond());
     } else {
-      throw ApplicationFailure.newNonRetryableFailure(
-        "Invalid credit card number",
-        CreditCardProcessingException.class.getName()
-      );
+      throw ApplicationFailure.newNonRetryableFailure("Invalid credit card number",
+        CreditCardProcessingException.class.getName());
     }
   }
 }
