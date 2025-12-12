@@ -14,10 +14,10 @@ the `solution` subdirectory.
 
 You'll need two terminal windows for this exercise.
 
-1. From the repository root, change to the `1_error_handling/exercises/non-retryable-error-types/practice`
+1. In all terminals, change to the `exercises/non-retryable-error-types/practice`
    directory using the following command:
    ```bash
-   cd 1_error_handling/exercises/non-retryable-error-types/practice
+   cd exercises/non-retryable-error-types/practice
    ```
 2. In one terminal, run `mvn clean compile` to install packages.
 3. Note that the `Starter.java` file has had the credit card number modified to be

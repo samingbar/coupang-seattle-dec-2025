@@ -15,12 +15,12 @@ the `solution` subdirectory.
 
 You'll need two terminal windows for this exercise.
 
-1. From the repository root, change to the `1_error_handling/exercises/handling-errors/practice`
+1. In all terminals, change to the `exercises/handling-errors/practice`
    directory using the following command:
    ```bash
-   cd 1_error_handling/exercises/handling-errors/practice
+   cd exercises/handling-errors/practice
    ```
-2. In one terminal, run `mvn clean compile` to install packages. **NOTE: This build is expected to fail (for now)!**
+2. In one terminal, run `mvn clean compile` to install packages.
 
 ## Part A: Throw a non-retryable `ApplicationFailure` to fail an Activity
 
@@ -50,7 +50,7 @@ upon being thrown.
    an error if the entered credit card number does not have 16 digits. Use the
    `ApplicationFailure` code from the previous step as a reference. You should
    pass a `CreditCardProcessingException` as the type to this function. This
-   custom exception can be found in `src/main/java/pizzaworkflow/exceptions/CreditCardProcessingException.java`.
+   custom exception can be found in `pizzaworkflow/exceptions/CrediCardProcessingException.java`.
 6. Save your file.
 
 ## Part B: Catch the Activity Failure
@@ -84,7 +84,7 @@ been provided to run this Workflow.
 
 **First, run the Workflow successfully:**
 
-1. In one terminal, compile your code by running `mvn clean compile`. (The build should succeed now)
+1. In one terminal, compile your code by running `mvn clean compile`.
 2. In the same terminal, start the Worker by running:
    ```bash
    mvn exec:java -Dexec.mainClass="pizzaworkflow.PizzaWorker"

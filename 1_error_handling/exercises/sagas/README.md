@@ -12,10 +12,10 @@ in the `solution` subdirectory.
 
 ## Setup & Prerequisites
 
-1. From the repository root, change to the `1_error_handling/exercises/sagas/practice`
+1. In all terminals, change to the `exercises/sagas/practice`
    directory using the following command:
    ```bash
-   cd 1_error_handling/exercises/sagas/practice
+   cd exercises/sagas/practice
    ```
 
 ## Part A: Review your new rollback Activities and custom Error

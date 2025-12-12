@@ -14,7 +14,7 @@ import pizzaworkflow.exceptions.CreditCardProcessingException;
 import java.time.Instant;
 
 import io.temporal.activity.Activity;
-import io.temporal.failure.ApplicationFailure;
+// TODO Part A: Add the necessary statement to import ApplicationFailure
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -83,10 +83,10 @@ public class PizzaActivitiesImpl implements PizzaActivities {
       String cardProcessingConfirmationNumber = "PAYME-78759";
       return new CreditCardConfirmation(creditCard, cardProcessingConfirmationNumber, bill.getAmount(), Instant.now().getEpochSecond());
     } else {
-      throw ApplicationFailure.newNonRetryableFailure(
-        "Invalid credit card number",
-        CreditCardProcessingException.class.getName()
-      );
+      // TODO Part A: Throw a failure here to fail the Activity
+      // if the credit card "processing" fails. This failure should fail the
+      // Activity and NOT retry. Pass in a valid error message and the error
+      // type, using the custom exception defined in `exceptions/CreditCardProcessingException.java`
     }
   }
 }
