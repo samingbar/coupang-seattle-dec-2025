@@ -18,7 +18,7 @@ import pizzaworkflow.exceptions.CreditCardProcessingException;
 import pizzaworkflow.exceptions.InvalidChargeAmountException;
 import pizzaworkflow.exceptions.OutOfServiceAreaException;
 
-// Import LocalActivityOptions
+// Todo: Check that LocalActivityOptions is imported
 import io.temporal.activity.LocalActivityOptions;
 
 import java.time.Duration;
@@ -33,8 +33,12 @@ public class PizzaWorkflowImpl implements PizzaWorkflow {
   ActivityOptions options =
       ActivityOptions.newBuilder().setStartToCloseTimeout(Duration.ofSeconds(5)).build();
 
+  // Todo: Define LocalActivityOptions. Use ActivityOptions as an example of what this should look like. 
+
   private final PizzaActivities activities =
       Workflow.newActivityStub(PizzaActivities.class, options);
+
+  //TODO: define a newLocalActivityStub for your local activities. 
 
   @Override
   public OrderConfirmation orderPizza(PizzaOrder order) {
@@ -76,7 +80,7 @@ public class PizzaWorkflowImpl implements PizzaWorkflow {
     Bill bill = new Bill(customer.getCustomerID(), orderNumber, "Pizza", totalPrice);
 
     CreditCardConfirmation creditCardConfirmation;
-
+    //TODO: Update the worfklow to use your local acivity instead of the noraml process credit card activity. 
     try {
       creditCardConfirmation = activities.processCreditCard(creditCardInfo, bill);
     } catch (ActivityFailure e) {
@@ -84,7 +88,7 @@ public class PizzaWorkflowImpl implements PizzaWorkflow {
       throw ApplicationFailure.newFailureWithCause("Unable to process credit card",
           CreditCardProcessingException.class.getName(), e);
     }
-
+    //TODO: Update the workflow so that it calls your local activity instead of the normal send bill activity. 
     OrderConfirmation confirmation;
     try {
       confirmation = activities.sendBill(bill, creditCardConfirmation);

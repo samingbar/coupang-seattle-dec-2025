@@ -13,8 +13,10 @@ public interface PizzaActivities {
 
   Distance getDistance(Address address);
 
+  //TODO: Move to LocalPizzaActivities.java
   OrderConfirmation sendBill(Bill bill, CreditCardConfirmation creditCardConfirmation);
 
+  //TODO: Move to LocalPizzaActivities.java
   CreditCardConfirmation processCreditCard(CreditCardInfo creditCard, Bill bill);
 
 }

@@ -14,7 +14,7 @@ public class PizzaWorker {
 
     Worker worker = factory.newWorker(Constants.TASK_QUEUE_NAME);
 
-    worker.registerWorkflowImplementationTypes(PizzaWorkflowImpl.class);
+    worker.registerWorkflowImplementationTypes(PizzaWorkflowImpl.class); //TODO: Update worker to register local activities
 
     worker.registerActivitiesImplementations(new PizzaActivitiesImpl());
 
