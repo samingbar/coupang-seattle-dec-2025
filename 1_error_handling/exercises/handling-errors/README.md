@@ -15,12 +15,13 @@ the `solution` subdirectory.
 
 You'll need two terminal windows for this exercise.
 
-1. In all terminals, change to the `exercises/handling-errors/practice`
+1. In all terminals, change to the `1_error_handling/exercises/handling-errors/practice`
    directory using the following command:
    ```bash
    cd exercises/handling-errors/practice
    ```
-2. In one terminal, run `mvn clean compile` to install packages.
+2. In one terminal, run `mvn clean compile` to install packages. Note: It's expected that this build will fail with the error cannot find symbol for the variable ApplicationFailure.
+
 
 ## Part A: Throw a non-retryable `ApplicationFailure` to fail an Activity
 
@@ -39,7 +40,7 @@ upon being thrown.
 2. Open the `PizzaActivitiesImpl.java` in your text editor.
 3. Add the following import statement `import io.temporal.failure.ApplicationFailure;`
    at the top of this file.
-4. In the `sendBill` Activity, notice how an error is thrown if the `chargeAmount`
+4. In the `sendBill` Activity (line 63), notice how an error is thrown if the `chargeAmount`
    is less than 0. If the calculated amount to charge the customer is negative,
    a non-retryable `ApplicationFailure` is thrown. It is important to use a
    non-retryable failure here, as you want to fail the Activity if the amount
